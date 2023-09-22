@@ -45,7 +45,7 @@ elem_t TBitField::GetMemMask(const size_t n) const // битовая маска 
 
 inline void TBitField::verify_index(const size_t n) const
 {
-  if (n < 0 || n >= bitLen)
+  if (n >= bitLen)
   {
     throw out_of_range("bit index is out of range");
   }
@@ -122,7 +122,7 @@ TBitField TBitField::operator|(const TBitField &bf) // операция "или"
   const TBitField* rhs = lhs_larger ? &bf : this;
 
   TBitField res(lhs_larger ? *this : bf);
-  for (size_t i = 0; i < min(memLen, bf.memLen); i++)
+  for (size_t i = 0; i < res.memLen; i++)
   {
     res.pMem[i] |= rhs->pMem[i];
   }
@@ -132,7 +132,8 @@ TBitField TBitField::operator|(const TBitField &bf) // операция "или"
 TBitField TBitField::operator&(const TBitField &bf) // операция "и"
 {
   TBitField res(max(bitLen, bf.bitLen));
-  for (size_t i = 0; i < min(memLen, bf.memLen); i++)
+  const size_t minmem = min(memLen, bf.memLen);
+  for (size_t i = 0; i < minmem; i++)
   {
     res.pMem[i] = pMem[i] & bf.pMem[i];
   }

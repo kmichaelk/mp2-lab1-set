@@ -99,9 +99,7 @@ TSet TSet::operator-(const size_t Elem) // разность с элементо�
 
 TSet TSet::operator~(void) // дополнение
 {
-  TSet res(maxPower);
-  res.bitField = ~bitField;
-  return res;
+  return TSet(~bitField);
 }
 
 // перегрузка ввода/вывода
